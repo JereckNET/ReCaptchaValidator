@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{126102D9-6EBD-42CB-8F88-3F705A4C6FAD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JereckNET.Web.ReCaptcha</RootNamespace>
+    <AssemblyName>JereckNET.Web.ReCaptcha</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ReCaptchaValidator.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\ReleaseSigned\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Net.Http.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="LowerCaseFormatProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecaptchaErrorCodeConverter.cs" />
+    <Compile Include="RecaptchaErrors.cs" />
+    <Compile Include="RecaptchaResponse.cs" />
+    <Compile Include="ReCaptchaSize.cs" />
+    <Compile Include="ReCaptchaTheme.cs" />
+    <Compile Include="ReCaptchaValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReCaptchaValidator.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ReCaptchaValidator.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReCaptcha.js" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseSigned' ">
+    <PostBuildEvent>
+      call "$(DevEnvDir)..\Tools\VsDevCmd.bat" &gt;nul
+      set /p SignCodeThumbprint=&lt;"$(SolutionDir)\..\SignCodeThumbprint.txt"
+      signtool sign /t http://timestamp.comodoca.com /sha1 %25SignCodeThumbprint%25 /fd SHA256 "$(TargetPath)"
+
+      "C:\Program Files (x86)\NuGet\nuget.exe" pack $(ProjectPath) -Properties Configuration=$(Configuration) -IncludeReferencedProjects
+      "C:\Program Files (x86)\NuGet\nuget.exe" sign *.nupkg -CertificateFingerprint %25SignCodeThumbprint%25 -HashAlgorithm SHA256 -Timestamper http://timestamp.comodoca.com
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

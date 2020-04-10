@@ -55,7 +55,7 @@ ErrorCallback           | The name of your client-side callback function, execut
 Errors¹                 | The errors returned from reCAPTCHA's API as a `RecaptchaErrors` enum.
 ExpiredCallback         | The name of your client-side callback function, executed when the reCAPTCHA response expires and the user needs to re-verify.
 LoadedCallback          | The name of your client-side callback function, executed when the reCAPTCHA control is created.
-PrefersColorSchemeAware | Instruct the control to select the theme to use based on the client's browser preference.<br>If the browser is [not compatible](https://www.caniuse.com/#search=prefers-color-scheme) with the `prefers-color-scheme`media query, or is configured with `no-preference`, the theme configured with the `Theme` property is used.<br> Defaults to **true**.
+PrefersColorSchemeAware | Instruct the control to select the theme to use based on the client's browser preference.<br>If the browser is [not compatible](https://www.caniuse.com/#search=prefers-color-scheme) with the `prefers-color-scheme` media query, or is configured with `no-preference`, the theme configured with the `Theme` property is used.<br> Defaults to **true**.
 SecretKey               | The secret key as configured in [reCAPTCHA Administration Console](https://www.google.com/recaptcha/admin/).<br>Defaults to **your_secret_key** (and will not work as is).
 SiteKey                 | The site key as configured in [reCAPTCHA Administration Console](https://www.google.com/recaptcha/admin/).<br>Defaults to **your_site_key** (and will not work as is).
 Size                    | The size of the widget.<br>Defaults to **Normal**

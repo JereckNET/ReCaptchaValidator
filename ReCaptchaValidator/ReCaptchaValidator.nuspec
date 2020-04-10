@@ -5,7 +5,7 @@
     <version>$version$</version>
     <title>$title$</title>
     <authors>Olivier PIRLET</authors>
-    <owners>Olivier PIRLET, Jereck.NET Consulting</owners>
+    <owners>Olivier PIRLET, Jereck.NET-Consulting</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://www.jereck.net/consulting/Projects/$id$/</projectUrl>

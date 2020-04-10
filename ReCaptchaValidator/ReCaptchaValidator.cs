@@ -12,6 +12,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace JereckNET.Web.UI {
+    /// <summary>
+    /// <c>reCAPTCHA Validator</c> makes it easy to include <a href="https://www.google.com/recaptcha/intro/v3.html">Google's reCAPTCHA v2 (Checkbox)</a> in ASP.NET pages.
+    /// </summary>
     [DefaultProperty("ErrorMessage")]
     [ToolboxData("<{0}:ReCaptchaValidator runat=\"server\" SiteKey=\"your_site_key\" SecretKey=\"your_secret_key\" ErrorMessage=\"ReCaptchaValidator\"></{0}:ReCaptchaValidator>")]
     public class ReCaptchaValidator : WebControl, IValidator {
@@ -25,32 +28,63 @@ namespace JereckNET.Web.UI {
 
         #region Designer Properties
         #region reCAPTCHA Configuration
+        /// <summary>
+        /// Gets or sets the site key as configured in reCAPTCHA Administration Console.
+        /// </summary>
         [Category("reCAPTCHA Configuration")]
         [Description("This is your site public key.")]
         public string SiteKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secret key as configured in reCAPTCHA Administration Console.
+        /// </summary>
         [Category("reCAPTCHA Configuration")]
         [Description("This is your site private key.")]
         public string SecretKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reCAPTCHA's test mode. If set to <see langword="true"/>, validation will pass without check (for test purposes only).
+        /// </summary>
+        /// <remarks>
+        /// The test mode is designed to be used for automatic testing (which, by itself is contrary the the very principle of CAPTCHA validation).
+        /// </remarks>
         [Category("reCAPTCHA Configuration")]
         [DefaultValue(false)]
         [Description("This enables the reCAPTCHA validation to pass without check (for test purposes only).")]
         public bool TestMode { get; set; }
         #endregion
         #region Appearance
+        /// <summary>
+        /// Gets or sets the size of the widget.
+        /// </summary>
         [Category("Appearance")]
         [DefaultValue("Normal")]
         [Description("The size of the widget.")]
         public ReCaptchaSize Size { get; set; }
+
+        /// <summary>
+        /// Gets or sets the color theme of the widget.
+        /// </summary>
         [Category("Appearance")]
         [DefaultValue("Light")]
         [Description("The color theme of the widget.")]
         public ReCaptchaTheme Theme { get; set; }
+
+        /// <summary>
+        /// Gets or sets the awareness with the prefers-color-scheme media query.
+        /// </summary>
+        /// <remarks>
+        /// If the browser is not compatible with the prefers-color-scheme media query, or is configured with no-preference, the theme configured with the <see cref="Theme" /> property is used.
+        /// </remarks>
         [Category("Appearance")]
         [DefaultValue(true)]
         [Description("Is the widget compatible with browser's prefers-color-scheme media query.")]
         public bool PrefersColorSchemeAware { get; set; }
 
-        [DefaultValue("reCAPTCHA Vaidation failed")]
+        /// <summary>
+        /// Gets or sets the error message text generated when the reCAPTCHA validation fails.
+        /// </summary>
+        [DefaultValue("reCAPTCHA Validation failed")]
         [Category("Appearance")]
         [Description("Message to display in a ValidationSummary when the captcha validation fails.")]
         public string ErrorMessage {
@@ -64,15 +98,33 @@ namespace JereckNET.Web.UI {
         }
         #endregion
         #region Client-side callbacks
+        /// <summary>
+        /// Gets or set the name of the javascript function called on the client-side when the user submits a successful response.
+        /// </summary>
+        /// <remarks>
+        /// The <c>g-recaptcha-response</c> token is passed to your callback.
+        /// </remarks>
         [Category("Client-side callbacks")]
         [Description("The name of your callback function, executed when the user submits a successful response.\nThe g-recaptcha-response token is passed to your callback.")]
         public string Callback { get; set; }
+
+        /// <summary>
+        /// Gets or set the name of the javascript function called on the client-side when the reCAPTCHA control is created.
+        /// </summary>
         [Category("Client-side callbacks")]
         [Description("The name of your callback function, executed when the reCAPTCHA control is created.")]
         public string LoadedCallback { get; set; }
+
+        /// <summary>
+        /// Gets or set the name of the javascript function called on the client-side when the reCAPTCHA response expires and the user needs to re-verify.
+        /// </summary>
         [Category("Client-side callbacks")]
         [Description("The name of your callback function, executed when the reCAPTCHA response expires and the user needs to re-verify.")]
         public string ExpiredCallback { get; set; }
+
+        /// <summary>
+        /// Gets or set the name of the javascript function called on the client-side when reCAPTCHA encounters an error.
+        /// </summary>
         [Category("Client-side callbacks")]
         [Description("The name of your callback function, executed when reCAPTCHA encounters an error.")]
         public string ErrorCallback { get; set; }
@@ -80,6 +132,9 @@ namespace JereckNET.Web.UI {
         #endregion
 
         #region Non-Designer Properties
+        /// <summary>
+        /// Gets or sets a value indicating whether the user passes reCAPTCHA validation.
+        /// </summary>
         [Browsable(false)]
         [Category("Behavior")]
         [DefaultValue(true)]
@@ -89,6 +144,10 @@ namespace JereckNET.Web.UI {
             set;
         }
 
+        /// <summary>
+        /// Gets the errors returned by Google's reCAPTCHA API call.
+        /// </summary>
+        /// <seealso cref="RecaptchaErrors" />
         [Browsable(false)]
         [Category("Error handling")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -99,7 +158,15 @@ namespace JereckNET.Web.UI {
         #endregion
 
         #region Overrides
+        /// <inheritdoc />
         protected override HtmlTextWriterTag TagKey => HtmlTextWriterTag.Div;
+
+        /// <summary>
+        /// Gets or sets a value indicating wether the reCAPTCHA Validator control is enabled.
+        /// </summary>
+        /// <remarks>
+        /// If <see langword="false" /> the validator is always valid.
+        /// </remarks>
         public override bool Enabled {
             get {
                 return base.Enabled;
@@ -116,6 +183,7 @@ namespace JereckNET.Web.UI {
         #endregion
 
         #region Control Life-cycle Event handlers
+        /// <inheritdoc />
         protected override void OnPreRender(EventArgs e) {
             base.OnPreRender(e);
 
@@ -126,11 +194,13 @@ namespace JereckNET.Web.UI {
 
             Page.ClientScript.RegisterClientScriptResource(typeof(ReCaptchaValidator), SCRIPT_RESOURCE_NAME);
         }
+        /// <inheritdoc />
         protected override void OnInit(EventArgs e) {
             base.OnInit(e);
 
             Page.Validators.Add(this);
         }
+        /// <inheritdoc />
         protected override void OnUnload(EventArgs e) {
             if (Page != null) {
                 Page.Validators.Remove(this);
@@ -140,6 +210,10 @@ namespace JereckNET.Web.UI {
         #endregion
 
         #region Control rendering
+        /// <summary>
+        /// Checks if both the <see cref="SiteKey"/> and <see cref="SecretKey"/> are set to non-default values.
+        /// </summary>
+        /// <exception cref="HttpException">Raised when one or both of the required properties are left with their default values.</exception>
         protected bool PropertiesValid {
             get {
                 if (string.IsNullOrEmpty(SiteKey) || SiteKey.Equals("your_site_key"))
@@ -152,6 +226,7 @@ namespace JereckNET.Web.UI {
             }
         }
 
+        /// <inheritdoc />
         public override void RenderControl(HtmlTextWriter writer) {
             bool shouldBeVisible = Enabled && !IsValid;
 
@@ -164,19 +239,22 @@ namespace JereckNET.Web.UI {
             }
 
             if (Site != null && Site.DesignMode) {
-                writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                writer.Write("<b>[Google reCAPTCHA]</b>");
-                writer.WriteBreak();
-                writer.Write($"Site key : <em>{SiteKey}</em>");
-                writer.WriteBreak();
-                writer.Write($"Secret key : <em>{SecretKey}</em>");
-                writer.RenderEndTag();
-
+                renderDesignMode(writer);
             } else {
-                render(writer);
+                renderProductionMode(writer);
             }
         }
-        private void render(HtmlTextWriter writer) {
+
+        private void renderDesignMode(HtmlTextWriter writer) {
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+            writer.Write("<b>[Google reCAPTCHA]</b>");
+            writer.WriteBreak();
+            writer.Write($"Site key : <em>{SiteKey}</em>");
+            writer.WriteBreak();
+            writer.Write($"Secret key : <em>{SecretKey}</em>");
+            writer.RenderEndTag();
+        }
+        private void renderProductionMode(HtmlTextWriter writer) {
             writer.AddAttribute(HtmlTextWriterAttribute.Id, "recaptcha-container-" + ClientID);
 
             RenderBeginTag(writer);
@@ -228,6 +306,10 @@ namespace JereckNET.Web.UI {
 
             return responseString;
         }
+
+        /// <summary>
+        /// Confirms with Google's reCAPTCHA API the validity of the response and updates the <see cref="IsValid"/> property.
+        /// </summary>
         public void Validate() {
             try {
                 string clientResponse = HttpContext.Current.Request["g-recaptcha-response"];
@@ -248,6 +330,9 @@ namespace JereckNET.Web.UI {
         }
         #endregion  
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReCaptchaValidator"/> class.
+        /// </summary>
         public ReCaptchaValidator() {
             IsValid = true;
             PrefersColorSchemeAware = true;

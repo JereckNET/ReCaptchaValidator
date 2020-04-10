@@ -13,7 +13,7 @@ using System.Web.UI;
 [assembly: Guid("126102d9-6ebd-42cb-8f88-3f705a4c6fad")]
 
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("1.0-alpha1")]
+[assembly: AssemblyInformationalVersion("1.0-alpha2")]
 
 [assembly: TagPrefix("JereckNET.Web.UI", "jcw")]
 [assembly: WebResource("JereckNET.Web.ReCaptcha.ReCaptcha.js", "text/javascript")]

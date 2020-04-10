@@ -8,7 +8,7 @@
         /// </summary>
         Normal,
         /// <summary>
-        ///  Compact size ( × )
+        ///  Compact size (164px × 144px)
         /// </summary>
         Compact
     }

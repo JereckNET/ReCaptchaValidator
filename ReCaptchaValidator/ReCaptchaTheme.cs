@@ -8,7 +8,7 @@
         /// </summary>
         Light,
         /// <summary>
-        ///  Dark theme  (mostly #....)
+        ///  Dark theme  (mostly #222222)
         /// </summary>
         Dark
     }

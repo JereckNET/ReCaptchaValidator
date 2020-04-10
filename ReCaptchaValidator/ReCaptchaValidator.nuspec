@@ -9,6 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://www.jereck.net/consulting/Projects/$id$/</projectUrl>
+    <repository type="git" url="https://github.com/JereckNET/ReCaptchaValidator" />
     <iconUrl>https://www.jereck.net/consulting/Projects/$id$/Logo.png</iconUrl>
     <icon>images\ReCaptchaNET.png</icon>
     <description>$description$</description>

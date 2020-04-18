@@ -82,21 +82,18 @@
   <ItemGroup>
     <EmbeddedResource Include="ReCaptcha.js" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <PostBuildEvent>
-      "C:\Program Files (x86)\NuGet\nuget.exe" pack $(ProjectPath) -Properties Configuration=$(Configuration) -IncludeReferencedProjects
-    </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseSigned' ">
-    <PostBuildEvent>
-      call "$(DevEnvDir)..\Tools\VsDevCmd.bat" &gt;nul
-      set /p SignCodeThumbprint=&lt;"$(SolutionDir)\..\SignCodeThumbprint.txt"
-      signtool sign /t http://timestamp.comodoca.com /sha1 %25SignCodeThumbprint%25 /fd SHA256 "$(TargetPath)"
+      IF EXIST "$(SolutionDir)\..\SignCode.cmd" (
+        CALL "$(SolutionDir)\..\SignCode.cmd" "$(DevEnvDir)" "$(TargetPath)"
+      )
 
       "C:\Program Files (x86)\NuGet\nuget.exe" pack $(ProjectPath) -Properties Configuration=$(Configuration) -IncludeReferencedProjects
-      "C:\Program Files (x86)\NuGet\nuget.exe" sign *.nupkg -CertificateFingerprint %25SignCodeThumbprint%25 -HashAlgorithm SHA256 -Timestamper http://timestamp.comodoca.com
+
+      IF EXIST "$(SolutionDir)\..\NugetSign.cmd" (
+        CALL "$(SolutionDir)\..\NugetSign.cmd" "$(TargetDir)"
+      )
     </PostBuildEvent>
   </PropertyGroup>
 </Project>

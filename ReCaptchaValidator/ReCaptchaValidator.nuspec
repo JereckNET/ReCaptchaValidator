@@ -5,10 +5,10 @@
     <version>$version$</version>
     <title>$title$</title>
     <authors>Olivier PIRLET</authors>
-    <owners>Olivier PIRLET, Jereck.NET-Consulting</owners>
+    <owners>Jereck, Jereck.NET-Consulting</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <projectUrl>https://www.jereck.net/consulting/Projects/$id$/</projectUrl>
+    <projectUrl>https://www.jereck.net/Projects/ReCaptchaValidator</projectUrl>
     <repository type="git" url="https://github.com/JereckNET/ReCaptchaValidator" />
     <iconUrl>https://www.jereck.net/consulting/Projects/$id$/Logo.png</iconUrl>
     <icon>images\ReCaptchaNET.png</icon>
